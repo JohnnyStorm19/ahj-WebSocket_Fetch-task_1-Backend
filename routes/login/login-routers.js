@@ -22,14 +22,14 @@ loginRouter.post('/', async (req, res) => {
     console.log('Сообщений нет!');
 })
 
-loginRouter.delete('/:id', async (req, res) => {
+loginRouter.get('/:id', async (req, res) => {
     const { id } = req.params;
-    if (!nicknames.data.some(obj => obj.id === id)) {
+    if (!loginData.data.some(obj => obj.id === id)) {
         res.json({ error: 'Nickname does not exist' });
         return;
     }
-    nicknames.data = nicknames.data.filter(obj => obj.id != id);
-    res.json({ success: 'Nickname deleted', nicknamesData: nicknames.data });
+    loginData.data = loginData.data.filter(obj => obj.id != id);
+    res.json({ success: 'Nickname deleted', loginData: loginData.data });
 })
 
 

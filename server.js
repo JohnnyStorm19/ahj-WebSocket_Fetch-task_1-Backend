@@ -38,10 +38,10 @@ wsServer.on('connection', socket => {
       .forEach(client => client.send(messageObjSend));
   });
 
-  //при закрытии очищаем историю
   socket.on('close', () => {
-    chatMessages.data = [];
-    loginData.data = [];
+    Array.from(wsServer.clients)
+    .filter(client => client.readyState === ws.OPEN)
+    .forEach(client => client.send(JSON.stringify({ loginData: loginData.data })));
   })
 
 });
@@ -55,4 +55,9 @@ server.on('upgrade', (request, socket, head) => {
     wsServer.emit('connection', socket, request);
   });
 });
+
+server.on('close', () => {
+    chatMessages.data = [];
+    loginData.data = [];
+})
 
