@@ -14,10 +14,14 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/login', loginRouter);
 
+// тест для render.com
+app.get('/test', (req, res) => {
+  res.send(`Hello world from server on ${port}`)
+})
+
 const wsServer = new ws.Server({ noServer: true });
 
 wsServer.on('connection', socket => {
-  console.log('Hello from server!!!')
   // при подключении клиента, отправляем ему активные логины для отрисовки
   Array.from(wsServer.clients)
   .filter(client => client.readyState === ws.OPEN)
